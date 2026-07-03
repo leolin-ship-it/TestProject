@@ -1,0 +1,20 @@
+# 虛擬環境與快取
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 測試報告與工具
+allure/
+allure-results/
+allure-report/
+cloudflared.exe
+*.xlsx
+
+# 敏感憑證 (絕對不可上傳)
+service_account.json
+
+# 編輯器暫存
+.vscode/
+.idea/
