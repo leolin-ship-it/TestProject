@@ -3,88 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Allure 風控與數據分析</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <title>Allure 風控與數據分析專案</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", "Segoe UI", Arial, sans-serif;
+      background: #f5f7fb;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 50px auto;
+      padding: 0 20px 40px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #5b7cff, #7f9cff);
+      color: #fff;
+      text-align: center;
+      padding: 50px 30px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(91, 124, 255, 0.25);
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      letter-spacing: 2px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 17px;
+      opacity: 0.95;
+    }
+
+    .nav {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .nav a {
+      display: inline-block;
+      margin: 0 8px;
+      padding: 10px 20px;
+      background: #fff;
+      color: #2f4fb3;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .nav a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(91, 124, 255, 0.2);
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 28px;
+      color: #2f4fb3;
+      border-left: 6px solid #5b7cff;
+      padding-left: 14px;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #444;
+      margin: 20px 0 10px;
+      display: block;
+    }
+
+    .label:first-of-type { margin-top: 0; }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      background: #eef2ff;
+      color: #3b5bdb;
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+      padding-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 32px; }
+      .card h2 { font-size: 24px; }
+      p { font-size: 16px; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🎰 Allure 風控與數據分析</h1>
-    <p>上傳 JSON 資料或從 API 載入，即時分析追殺局破殺率（完全在瀏覽器運算，資料不上傳伺服器）</p>
-    <p style="margin-top:0.75rem;"><a href="process.html" style="color:#93c5fd;text-decoration:none;font-weight:600;">📋 查看開發過程記錄</a></p>
-  </header>
+  <div class="container">
+    <div class="header">
+      <h1>Allure 風控與數據分析</h1>
+      <p>博弈遊戲資料分析 · 風控檢測 · 自動化測試報告</p>
+    </div>
 
-  <main>
-    <div id="status"></div>
+    <div class="nav">
+      <a href="dashboard.html">🎰 風控分析儀表板</a>
+      <a href="https://github.com/leolin-ship-it/TestProject" target="_blank" rel="noopener">📦 GitHub 原始碼</a>
+    </div>
 
-    <section class="card">
-      <h2>📂 資料來源</h2>
-      <div class="drop-zone" id="dropZone">
-        <input type="file" id="fileInput" accept=".json,application/json" multiple>
-        <p><strong>拖放 JSON 檔案至此</strong>，或點擊選擇（可選多個）</p>
-        <p class="hint">支援格式：<code>{ "rows": [...] }</code> 或直接 <code>[...]</code> 陣列</p>
+    <div class="card">
+      <h2>Allure 風控與數據分析專案</h2>
+
+      <span class="label">內容：</span>
+      <p>
+        本專案是一套完整的博弈遊戲風控分析系統，從 API 或 JSON 取得遊戲資料後，
+        自動完成欄位中文化、Excel 報表產出、追殺局破殺率分析與異常警示，
+        並透過 pytest 與 Allure 產生可視化測試報告。另提供一鍵執行器，
+        整合本地 Web 伺服器與 Cloudflare 外網分享，方便即時查看與傳遞報告。
+        前端另建置 GitHub Pages 靜態儀表板，可在瀏覽器直接上傳 JSON 進行風控分析與圖表展示。
+      </p>
+
+      <span class="label">功能：</span>
+      <p>
+        API / JSON 資料擷取與合併、英文欄位繁中對照、RTP 計算、Excel 匯出、
+        追殺局（ptk / K / T / B）破殺率統計、5% 風控門檻警示、
+        Google Sheet 同步、Allure 動態測試報告、單檔 HTML 報告打包、
+        環境變數安全管理、本機 JSON 匯出、網頁拖放分析、Chart.js 圖表、報告下載。
+      </p>
+
+      <span class="label">技術：</span>
+      <div class="tag-row">
+        <span class="tag">Python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">pytest</span>
+        <span class="tag">Allure</span>
+        <span class="tag">requests</span>
+        <span class="tag">openpyxl</span>
+        <span class="tag">gspread</span>
+        <span class="tag">Java</span>
+        <span class="tag">HTML / CSS / JS</span>
+        <span class="tag">Chart.js</span>
+        <span class="tag">Git / GitHub</span>
+        <span class="tag">GitHub Pages</span>
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">Cloudflare Tunnel</span>
+        <span class="tag">.env</span>
       </div>
+    </div>
 
-      <div class="input-row" style="margin-top: 1rem;">
-        <input type="url" id="apiUrl" placeholder="API 網址（需支援 CORS 跨域，內網 API 請改用 JSON 上傳）">
-        <button class="btn btn-primary" id="btnFetch">從 API 載入</button>
-        <button class="btn btn-secondary" id="btnSample">載入範例資料</button>
-      </div>
-      <p class="hint">💡 GitHub Pages 無法直接存取內網 API。請在本機用 Python 匯出 JSON 後上傳，或使用支援 CORS 的公開 API。</p>
-    </section>
-
-    <section class="card hidden" id="summarySection">
-      <h2>📊 總覽</h2>
-      <div class="stats-grid" id="statsGrid"></div>
-    </section>
-
-    <section class="card hidden" id="chartSection">
-      <h2>📈 各遊戲追殺局 vs 一般局佔比</h2>
-      <div class="chart-container">
-        <canvas id="riskChart"></canvas>
-      </div>
-    </section>
-
-    <section class="card hidden" id="resultSection">
-      <h2>🔍 追殺局風控分析</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>遊戲名稱</th>
-              <th>總遊玩局數</th>
-              <th>追殺局總局數</th>
-              <th>殺局佔比</th>
-              <th>玩家贏錢局數</th>
-              <th>破殺率(勝率)</th>
-              <th>風控警示</th>
-            </tr>
-          </thead>
-          <tbody id="resultBody"></tbody>
-        </table>
-      </div>
-      <div class="actions">
-        <button class="btn btn-primary" id="btnExportHtml">下載 HTML 報告</button>
-        <button class="btn btn-secondary" id="btnExportJson">下載 JSON 結果</button>
-      </div>
-    </section>
-
-    <section class="card hidden" id="detailSection">
-      <h2>📋 資料明細（前 100 筆）</h2>
-      <div class="table-wrap">
-        <table>
-          <thead id="detailHead"></thead>
-          <tbody id="detailBody"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>破殺率 &gt; 5% 標示為異常 · 追殺局代碼：ptk / K / T / B</p>
-  </footer>
-
-  <script src="js/analyzer.js"></script>
-  <script src="js/app.js"></script>
+    <footer>
+      <p>Allure 風控與數據分析專案 · 2026</p>
+    </footer>
+  </div>
 </body>
 </html>
