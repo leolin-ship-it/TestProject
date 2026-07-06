@@ -12,8 +12,12 @@ allure-report/
 cloudflared.exe
 *.xlsx
 
-# 敏感憑證 (絕對不可上傳)
+# 敏感憑證與本機設定 (絕對不可上傳)
 service_account.json
+.env
+
+# 本機匯出的 JSON（含真實資料，不上傳）
+docs/exports/
 
 # 編輯器暫存
 .vscode/

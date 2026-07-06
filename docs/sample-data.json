@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {"gameName": "百家樂", "roomType": "N", "profit": -100, "gameEndTime": "2026-07-01 10:00:00", "playerAccount": "user001", "allBet": 500, "revenue": 0},
+    {"gameName": "百家樂", "roomType": "ptk", "profit": 200, "gameEndTime": "2026-07-01 10:05:00", "playerAccount": "user002", "allBet": 1000, "revenue": 1200},
+    {"gameName": "百家樂", "roomType": "K", "profit": -50, "gameEndTime": "2026-07-01 10:10:00", "playerAccount": "user003", "allBet": 800, "revenue": 750},
+    {"gameName": "百家樂", "roomType": "T", "profit": 150, "gameEndTime": "2026-07-01 10:15:00", "playerAccount": "user004", "allBet": 600, "revenue": 750},
+    {"gameName": "百家樂", "roomType": "D", "profit": 0, "gameEndTime": "2026-07-01 10:20:00", "playerAccount": "user005", "allBet": 300, "revenue": 300},
+    {"gameName": "龍虎", "roomType": "N", "profit": 80, "gameEndTime": "2026-07-01 11:00:00", "playerAccount": "user006", "allBet": 400, "revenue": 480},
+    {"gameName": "龍虎", "roomType": "B", "profit": 300, "gameEndTime": "2026-07-01 11:05:00", "playerAccount": "user007", "allBet": 500, "revenue": 800},
+    {"gameName": "龍虎", "roomType": "K", "profit": 120, "gameEndTime": "2026-07-01 11:10:00", "playerAccount": "user008", "allBet": 700, "revenue": 820},
+    {"gameName": "龍虎", "roomType": "ptk", "profit": -200, "gameEndTime": "2026-07-01 11:15:00", "playerAccount": "user009", "allBet": 900, "revenue": 700},
+    {"gameName": "輪盤", "roomType": "N", "profit": -30, "gameEndTime": "2026-07-01 12:00:00", "playerAccount": "user010", "allBet": 200, "revenue": 170},
+    {"gameName": "輪盤", "roomType": "T", "profit": 50, "gameEndTime": "2026-07-01 12:05:00", "playerAccount": "user011", "allBet": 350, "revenue": 400},
+    {"gameName": "輪盤", "roomType": "K", "profit": 10, "gameEndTime": "2026-07-01 12:10:00", "playerAccount": "user012", "allBet": 250, "revenue": 260}
+  ]
+}
