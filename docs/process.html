@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Allure 風控分析 — 開發過程記錄</title>
+  <title>Allure 風控與數據分析專案</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -84,42 +84,25 @@
       padding-left: 14px;
     }
 
-    .meta {
-      font-size: 14px;
-      color: #888;
-      margin-bottom: 14px;
-    }
-
-    .meta code {
-      background: #f0f3fa;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #2f4fb3;
-    }
-
     .label {
       font-weight: bold;
       color: #444;
-      margin-bottom: 10px;
+      margin: 20px 0 10px;
       display: block;
     }
 
-    p { margin: 0 0 12px; font-size: 17px; }
+    .label:first-of-type { margin-top: 0; }
 
-    ul {
+    p {
       margin: 0 0 12px;
-      padding-left: 22px;
       font-size: 17px;
     }
-
-    li { margin-bottom: 6px; }
 
     .tag-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 8px;
     }
 
     .tag {
@@ -141,200 +124,64 @@
     @media (max-width: 768px) {
       .header h1 { font-size: 32px; }
       .card h2 { font-size: 24px; }
-      p, ul { font-size: 16px; }
+      p { font-size: 16px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>Allure 風控分析專案</h1>
-      <p>開發過程記錄 — 從 API 資料到 GitHub Pages 的完整歷程</p>
+      <h1>Allure 風控與數據分析</h1>
+      <p>博弈遊戲資料分析 · 風控檢測 · 自動化測試報告</p>
     </div>
 
     <div class="nav">
-      <a href="index.html">🎰 風控分析儀表板</a>
+      <a href="dashboard.html">🎰 風控分析儀表板</a>
       <a href="https://github.com/leolin-ship-it/TestProject" target="_blank" rel="noopener">📦 GitHub 原始碼</a>
     </div>
 
     <div class="card">
-      <h2>階段一：API 資料整理與 Excel 轉換</h2>
-      <div class="meta">核心檔案：<code>convert_to_excel.py</code> · 2026-07-03</div>
+      <h2>Allure 風控與數據分析專案</h2>
+
       <span class="label">內容：</span>
       <p>
-        從指定 API 抓取博弈遊戲資料，將 JSON 回傳內容整理成清楚易讀的格式，並輸出成 Excel 報表。
-        同時將原始英文欄位名稱翻譯為繁體中文（例如 <code>gameName</code> → 遊戲名稱、<code>profit</code> → 玩家輸贏），
-        並自動計算 RTP（返回率）、調整欄位排序與凍結首列，讓報表更符合營運查看習慣。
+        本專案是一套完整的博弈遊戲風控分析系統，從 API 或 JSON 取得遊戲資料後，
+        自動完成欄位中文化、Excel 報表產出、追殺局破殺率分析與異常警示，
+        並透過 pytest 與 Allure 產生可視化測試報告。另提供一鍵執行器，
+        整合本地 Web 伺服器與 Cloudflare 外網分享，方便即時查看與傳遞報告。
+        前端另建置 GitHub Pages 靜態儀表板，可在瀏覽器直接上傳 JSON 進行風控分析與圖表展示。
       </p>
-      <ul>
-        <li>支援多個 API 來源同時合併（以空格或逗號分隔）</li>
-        <li>支援本地 JSON 檔案作為資料來源</li>
-        <li>數值欄位自動清洗（移除逗號、處理空值）</li>
-        <li>結算時間降冪排序，最新資料排在最上方</li>
-      </ul>
+
+      <span class="label">功能：</span>
+      <p>
+        API / JSON 資料擷取與合併、英文欄位繁中對照、RTP 計算、Excel 匯出、
+        追殺局（ptk / K / T / B）破殺率統計、5% 風控門檻警示、
+        Google Sheet 同步、Allure 動態測試報告、單檔 HTML 報告打包、
+        環境變數安全管理、本機 JSON 匯出、網頁拖放分析、Chart.js 圖表、報告下載。
+      </p>
+
+      <span class="label">技術：</span>
       <div class="tag-row">
+        <span class="tag">Python</span>
         <span class="tag">pandas</span>
-        <span class="tag">openpyxl</span>
-        <span class="tag">requests</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段二：風控追殺局分析</h2>
-      <div class="meta">整合於 <code>convert_to_excel.py</code></div>
-      <span class="label">內容：</span>
-      <p>
-        依照風控規則，分析各遊戲在追殺模式（防守局）中玩家破殺的機率。
-        追殺局代碼為 <code>ptk</code>、<code>K</code>、<code>T</code>、<code>B</code>，
-        若玩家在追殺局中贏錢（玩家輸贏 &gt; 0）視為「破殺」。
-        當破殺率超過 5% 時，於終端機輸出 🚨 風控警示訊息。
-      </p>
-      <ul>
-        <li>依遊戲名稱分組統計總局數、追殺局數、破殺率</li>
-        <li>額外產出「追殺局分析」Excel 報表</li>
-        <li>可選：同步資料與分析結果至 Google Sheet（含堆疊柱狀圖）</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">風控</span>
-        <span class="tag">gspread</span>
-        <span class="tag">Google Sheet</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段三：Allure 測試報表自動化</h2>
-      <div class="meta">核心檔案：<code>test_risk_control.py</code> · <code>run_allure.py</code></div>
-      <span class="label">內容：</span>
-      <p>
-        在完成資料整理後，針對整體流程進行 pytest 測試驗證，確認 API 資料抓取、欄位轉換、
-        風控分析與異常判斷皆可正常運作。測試結果透過 Allure 報表呈現，
-        每一款遊戲對應一個測試案例，可清楚看到測試名稱、成功/失敗狀態與詳細數據附件。
-      </p>
-      <ul>
-        <li>動態生成測試案例（依 API 回傳的遊戲數量）</li>
-        <li>自動附加 Excel 報表至 Allure 報告</li>
-        <li>破殺率 &gt; 5% 的遊戲標記為測試失敗</li>
-        <li>產生單一 HTML 靜態報告，可直接分享</li>
-      </ul>
-      <div class="tag-row">
         <span class="tag">pytest</span>
-        <span class="tag">allure-pytest</span>
+        <span class="tag">Allure</span>
+        <span class="tag">requests</span>
+        <span class="tag">openpyxl</span>
+        <span class="tag">gspread</span>
         <span class="tag">Java</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段四：一鍵執行器與報告分享</h2>
-      <div class="meta">核心檔案：<code>run_allure.py</code></div>
-      <span class="label">內容：</span>
-      <p>
-        整合上述所有功能為一鍵執行器：輸入分析名稱與 Google Sheet 資訊後，
-        自動執行 pytest、產生 Allure 報告、啟動本地 Web 伺服器並在瀏覽器開啟。
-        另可透過 Cloudflare Tunnel 產生臨時外網分享網址，方便傳送報告給他人。
-      </p>
-      <ul>
-        <li>自動偵測並載入 Java 環境（免重啟終端機）</li>
-        <li>優先使用專案 <code>.venv</code> 虛擬環境</li>
-        <li>動態尋找可用 Port 部署本地伺服器</li>
-        <li>外網網址自動複製至剪貼簿</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">cloudflared</span>
-        <span class="tag">webbrowser</span>
-        <span class="tag">subprocess</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段五：API 設定安全化</h2>
-      <div class="meta">核心檔案：<code>api_config.py</code> · <code>.env</code></div>
-      <span class="label">內容：</span>
-      <p>
-        將原本寫死在程式碼中的內網 API 位址移至 <code>.env</code> 環境設定檔，
-        避免上傳 GitHub 時暴露內網 IP。程式啟動時自動讀取 <code>.env</code>，
-        終端機顯示時遮罩 host 位址，確保敏感資訊不外洩。
-      </p>
-      <ul>
-        <li><code>.env.example</code> 作為範本（可安全上傳 GitHub）</li>
-        <li><code>.env</code> 加入 <code>.gitignore</code>（本機專用）</li>
-        <li>未設定時可手動輸入 API，不寫入程式碼</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">安全</span>
-        <span class="tag">.env</span>
-        <span class="tag">gitignore</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段六：GitHub 版本控管與上傳</h2>
-      <div class="meta">遠端倉庫：<code>leolin-ship-it/TestProject</code></div>
-      <span class="label">內容：</span>
-      <p>
-        使用 Git 進行版本控管，將專案推送至 GitHub 公開倉庫。
-        透過 <code>.gitignore</code> 排除虛擬環境、測試報告、憑證檔與本機設定，
-        確保只有程式碼與文件上傳，敏感資料留在本機。
-      </p>
-      <ul>
-        <li>初始化 repo 並完成首次 commit</li>
-        <li>設定 <code>origin</code> 遠端並 push 至 <code>main</code></li>
-        <li>排除 <code>service_account.json</code>、<code>.env</code>、<code>.venv/</code></li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">Git</span>
-        <span class="tag">GitHub</span>
-        <span class="tag">版本控管</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段七：GitHub Pages 風控分析儀表板</h2>
-      <div class="meta">核心目錄：<code>docs/</code> · 2026-07-06</div>
-      <span class="label">內容：</span>
-      <p>
-        因 GitHub Pages 只能托管靜態網頁、無法執行 Python 或存取內網 API，
-        將風控分析核心邏輯移植為純 JavaScript，建立可在瀏覽器運行的分析儀表板。
-        使用者上傳 JSON 檔案即可在網頁上看到完整的追殺局分析、圖表與風控警示，
-        資料完全在本地運算，不上傳至任何伺服器。
-      </p>
-      <ul>
-        <li>拖放上傳 JSON、Chart.js 堆疊柱狀圖</li>
-        <li>破殺率 &gt; 5% 標示異常、可下載 HTML / JSON 報告</li>
-        <li>GitHub Actions 自動部署至 Pages</li>
-        <li>內建範例資料供快速體驗</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">HTML</span>
-        <span class="tag">JavaScript</span>
+        <span class="tag">HTML / CSS / JS</span>
         <span class="tag">Chart.js</span>
+        <span class="tag">Git / GitHub</span>
         <span class="tag">GitHub Pages</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>階段八：本機 JSON 匯出橋接</h2>
-      <div class="meta">核心檔案：<code>scripts/export_for_web.py</code></div>
-      <span class="label">內容：</span>
-      <p>
-        建立橋接腳本，在本機從內網 API 匯出 JSON 檔案，
-        再上传至 GitHub Pages 分析儀表板進行分析。
-        解決「內網 API 無法在公開網頁直接存取」的問題，
-        讓本機資料安全地流向網頁分析工具。
-      </p>
-      <ul>
-        <li>讀取 <code>.env</code> 中的 API 位址</li>
-        <li>合併多來源資料並匯出至 <code>docs/exports/</code></li>
-        <li>匯出目錄加入 <code>.gitignore</code>，避免真實資料上傳</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">橋接</span>
-        <span class="tag">JSON 匯出</span>
-        <span class="tag">內網 → 網頁</span>
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">Cloudflare Tunnel</span>
+        <span class="tag">.env</span>
       </div>
     </div>
 
     <footer>
-      <p>Allure 風控與數據分析專案 · 開發過程記錄 · 2026</p>
+      <p>Allure 風控與數據分析專案 · 2026</p>
     </footer>
   </div>
 </body>
